@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -81,7 +82,32 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable(Routes.SHOP) {
-                    ShopScreen()
+                    Scaffold(
+                        topBar = {
+                            TopNavBar(
+                                isLoggedIn = true,
+                                onWishlistClick = {
+                                    navController.navigate(Routes.WISHLIST)
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            BottomNavBar(currentScreen = "shop") { selected ->
+                                navController.navigate(selected)
+                            }
+                        }
+                    ) { paddingValues ->
+                        Box(modifier = Modifier.padding(paddingValues)) {
+                            ShopScreen(
+                                onAddToCart = { product -> cart = cart + product },
+                                onAddToWishlist = { product -> wishlist = wishlist + product },
+                                onProductClick = { product ->
+                                    currentProduct = product
+                                    navController.navigate(Routes.PRODUCT_DETAILS)
+                                }
+                            )
+                        }
+                    }
                 }
 
                 composable(Routes.CART) {
@@ -103,11 +129,10 @@ class MainActivity : ComponentActivity() {
                         CartScreen(
                             cartItems = cart,
                             navController = navController,
-                            // remove items in the cart
                             onRemoveFromCart = { product ->
+                                cart = cart - product
                             },
                             onProceedToCheckout = {
-                                // proceed to checkout
                                 navController.navigate(Routes.CHECKOUT)
                             },
                             modifier = Modifier.padding(padding)

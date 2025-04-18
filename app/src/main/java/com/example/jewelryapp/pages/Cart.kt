@@ -21,7 +21,7 @@ fun CartScreen(
     modifier: Modifier = Modifier
 ) {
     // Calculates the total
-    val total = cartItems.sumOf { it.price.toDoubleOrNull() ?: 0.0 }
+    val total = cartItems.sumOf { it.price}
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
         Text("Your Cart", style = MaterialTheme.typography.headlineMedium)
