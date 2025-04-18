@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity() {
             var wishlist by remember { mutableStateOf<List<Product>>(emptyList()) }
             var currentProduct by remember { mutableStateOf<Product?>(null) }
             var cart by remember { mutableStateOf<List<Product>>(emptyList()) }
+            var hasFirstOrderDiscount by remember { mutableStateOf(true) }
+
 
             NavHost(
                 navController = navController,
@@ -129,20 +131,55 @@ class MainActivity : ComponentActivity() {
                         CartScreen(
                             cartItems = cart,
                             navController = navController,
-                            onRemoveFromCart = { product ->
-                                cart = cart - product
-                            },
-                            onProceedToCheckout = {
-                                navController.navigate(Routes.CHECKOUT)
-                            },
+                            onRemoveFromCart = { product -> cart = cart - product },
+                            onProceedToCheckout = { navController.navigate(Routes.CHECKOUT) },
                             modifier = Modifier.padding(padding)
                         )
                     }
                 }
 
                 composable(Routes.PROFILE) {
-                    ProfileScreen()
+                    val sampleUser = User(
+                        name = "Lovely",
+                        email = "lovely@example.com",
+                        address = "456 Jewelry Ave",
+                        country = "Canada",
+                        currency = "CA",
+                        language = "English",
+                        paymentMethod = "Credit Card"
+                    )
+
+                    Scaffold(
+                        topBar = {
+                            TopNavBar(
+                                isLoggedIn = true,
+                                onWishlistClick = {
+                                    navController.navigate(Routes.WISHLIST)
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            BottomNavBar(currentScreen = "profile") { selected ->
+                                navController.navigate(selected)
+                            }
+                        }
+                    ) { paddingValues ->
+                        ProfileScreen(
+                            modifier = Modifier.padding(paddingValues),
+                            navController = navController,
+                            user = sampleUser,
+                            onNavigateToWishlist = { navController.navigate(Routes.WISHLIST) },
+                            onNavigateToSettings = { navController.navigate(Routes.SETTINGS) },
+                            onLogOut = {
+                                navController.navigate(Routes.LOGIN) {
+                                    popUpTo(Routes.HOME) { inclusive = true }
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
                 }
+
 
                 composable(Routes.WISHLIST) {
                     Scaffold(
@@ -204,6 +241,37 @@ class MainActivity : ComponentActivity() {
 
                 composable(Routes.CONFIRMATION) {
                     ConfirmationScreen()
+                }
+
+                composable(Routes.SETTINGS) {
+                    Scaffold(
+                        topBar = {
+                            TopNavBar(
+                                isLoggedIn = true,
+                                onWishlistClick = {
+                                    navController.navigate(Routes.WISHLIST)
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            BottomNavBar(currentScreen = "profile") { selected ->
+                                navController.navigate(selected)
+                            }
+                        }
+                    ) { innerPadding ->
+                        SettingsScreen(
+                            user = User(
+                                "Lovely",
+                                "lovely@example.com",
+                                "123 Street",
+                                "USA",
+                                "USD",
+                                "English",
+                                "Credit Card"
+                            ),
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
         }

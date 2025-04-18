@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,8 +20,12 @@ fun CartScreen(
     onProceedToCheckout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Calculates the total
-    val total = cartItems.sumOf { it.price}
+    var couponApplied by remember { mutableStateOf(false) }
+
+    // Calculate the subtotal and discount based on couponApplied
+    val subtotal = cartItems.sumOf { it.price }
+    val discount = if (couponApplied) subtotal * 0.20 else 0.0
+    val total = subtotal - discount
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
         Text("Your Cart", style = MaterialTheme.typography.headlineMedium)
@@ -71,13 +75,29 @@ fun CartScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // Total price in the cart
-            Text(
-                text = "Total: $${String.format("%.2f", total)}",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.End)
-            )
+            Text("Subtotal: $${"%.2f".format(subtotal)}")
+
+            // Display the discount
+            if (couponApplied) {
+                Text("First Order Discount: -$${"%.2f".format(discount)}", color = MaterialTheme.colorScheme.primary)
+            }
+
+            Text("Total: $${"%.2f".format(total)}", style = MaterialTheme.typography.titleMedium)
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // checkbox to apply the discount
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Apply 20% off",
+                    modifier = Modifier.weight(1f)
+                )
+                Checkbox(
+                    checked = couponApplied,
+                    onCheckedChange = { couponApplied = it },
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 

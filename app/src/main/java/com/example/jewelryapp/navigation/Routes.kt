@@ -13,4 +13,5 @@ object Routes {
     const val CHECKOUT = "checkout"
     const val PAYMENT = "payment"
     const val CONFIRMATION = "confirmation"
+    const val SETTINGS = "settings"
 }
