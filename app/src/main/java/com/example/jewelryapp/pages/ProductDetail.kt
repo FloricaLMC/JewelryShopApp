@@ -2,7 +2,6 @@ package com.example.jewelryapp.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-<<<<<<< HEAD
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -10,16 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.jewelryapp.R
-=======
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
->>>>>>> 38850c6623d115dfa9ed208df87229fd92d0f602
 import com.example.jewelryapp.model.Product
 
 @Composable
@@ -70,11 +60,7 @@ fun ProductDetailsScreen(
 
         // Product Description
         Text(
-<<<<<<< HEAD
-            text = "Description: LoveD Jewelry: Waterproof, Tarnish-proof, High Quality and Long-Term Use ",
-=======
-            text = "Description: ",
->>>>>>> 38850c6623d115dfa9ed208df87229fd92d0f602
+            text = "Description: LoveD Jewelry: Waterproof, Tarnish-proof, High Quality and Long-Term Use",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -93,7 +79,6 @@ fun ProductDetailsScreen(
                 Text("Add to Cart")
             }
         }
-<<<<<<< HEAD
 
         // Rating
         Row(
@@ -130,8 +115,3 @@ fun ProductDetailsScreen(
         }
     }
 }
-
-=======
-    }
-}
->>>>>>> 38850c6623d115dfa9ed208df87229fd92d0f602
