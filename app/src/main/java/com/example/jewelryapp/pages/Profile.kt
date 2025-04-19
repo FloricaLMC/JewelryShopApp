@@ -160,6 +160,7 @@ fun ProfileScreen(
             Text(text = "Settings", fontSize = 16.sp)
         }
 
+<<<<<<< HEAD
         val returnsExpanded = remember { mutableStateOf(false) }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -190,6 +191,8 @@ fun ProfileScreen(
             }
         }
 
+=======
+>>>>>>> 38850c6623d115dfa9ed208df87229fd92d0f602
         Spacer(modifier = Modifier.height(12.dp))
 
         // Logout
